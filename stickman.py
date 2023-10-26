@@ -1,6 +1,5 @@
-# stickman
+# stickman walking
 
-import gc
 import math
 
 from picographics import PicoGraphics, PEN_RGB555
@@ -57,8 +56,7 @@ while True:
     
     # arms
     for side in [0,180]:
-        a = sinangle(i + side)
-    
+        a = sinangle(i + side)  
         shoulder = [0, head + 10]
         elbow = [sinangle(a),cosangle(a)]
         elbow = add(shoulder,elbow)
@@ -71,7 +69,6 @@ while True:
     # legs
     for side in [0,180]:
         a = sinangle(i + side)
-    
         knee = [sinangle(a),cosangle(a)]
         knee = add(hip,knee)
         drawline(hip,knee)
@@ -86,5 +83,4 @@ while True:
     
     drawground()
     display.update()
-    gc.collect()
 
