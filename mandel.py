@@ -9,7 +9,7 @@ display = PicoGraphics(PEN_RGB555, 400, 300)
 
 WIDTH, HEIGHT = display.get_bounds()
 
-def mandel(i,res,inverted) :
+def mandel(i,res) :
     max_iter = 255  // res
     y = (i - HEIGHT/2) * scale + cy;
     for j in range (0,WIDTH, res):
@@ -21,7 +21,7 @@ def mandel(i,res,inverted) :
 
         zx = zy = zx2 = zy2 = 0
         iter = 0
-        for n in range (max_iter):
+        for n in range (max_iter -1):
             iter = n
             zy = 2 * zx * zy + y
             zx = zx2 - zy2 + x
@@ -31,22 +31,27 @@ def mandel(i,res,inverted) :
             
             if (iter < max_iter):
                 c = iter * res
-                if inverted : c = max_iter - c
-                color = display.create_pen(c, c, c )
-                display.set_pen(color)
-                if (res > 1) : display.rectangle(j,i,res,res)
-                else : display.pixel(j,i)
+                colorpixel(j,i,c)
              
+def colorpixel(x,y,c):
+    if invertcolors : c = 256- clr [c]
+    r = c
+    g = b = 0
+    color = display.create_pen(r, g, b )
+    display.set_pen(color)
+    if (res > 1) : display.rectangle(x,y,res,res)
+    else : display.pixel(x,y)
+
 scale = 1./128
 cx = -.6
 cy = 0
-invertcolors = 0
-    
+invertcolors = 1
+
+clr=[int(255*((i/255)**12)) for i in range(255,-1,-1)]
 
 while True:
     res = 8
     i = 0
-
     while res >= 1 :
         # repeat once for each buffer to kill flicker
         for r in range(2):
@@ -54,7 +59,7 @@ while True:
             display.set_pen(0)
             display.rectangle(0,i,WIDTH,res)
         
-            mandel (i,res,invertcolors)
+            mandel(i,res)
             display.update()
             
         if i == 0: t_start = time.ticks_ms()
@@ -75,4 +80,3 @@ while True:
         if button_y() :
             scale = scale * 1.1
             break
-        
