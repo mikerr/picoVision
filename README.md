@@ -1,5 +1,5 @@
 # picoVision
-Games and demos for Pimoroni PicoVision [](https://github.com/pimoroni/picovision)
+Games and demos for Pimoroni PicoVision https://github.com/pimoroni/picovision
 
 Mandel - draw mandelbrot fractal
 
