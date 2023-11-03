@@ -14,6 +14,7 @@ def mandel(i,res) :
     y = (i - HEIGHT/2) * scale + cy;
     for j in range (0,WIDTH, res):
         x = (j - WIDTH/2) * scale + cx;
+        
         xs = (x - 0.25)
         zx = math.sqrt(xs * xs + y * y)
         if (x < zx - 2 * zx * zx + 0.25) : continue
@@ -29,30 +30,35 @@ def mandel(i,res) :
             zy2 = zy * zy
             if (zx2 + zy2 > 4) : break
             
-            if (iter < max_iter):
+        if (iter < max_iter):
                 c = iter * res
                 colorpixel(j,i,c)
              
 def colorpixel(x,y,c):
-    if invertcolors : c = 256- clr [c]
+    c = 256- clr [c]
+    if invertcolors : blocksize = res // 2
+    else : blocksize = res
+    
     r = c
     g = b = 0
     color = display.create_pen(r, g, b )
     display.set_pen(color)
-    if (res > 1) : display.rectangle(x,y,res,res)
+    if (res > 1) : display.rectangle(x,y,blocksize,blocksize)
     else : display.pixel(x,y)
-
+    
 scale = 1./128
 cx = -.6
 cy = 0
-invertcolors = 1
+invertcolors = 0
 
-clr=[int(255*((i/255)**12)) for i in range(255,-1,-1)]
+clr= [int(255*((i/255)**12)) for i in range(255,-1,-1)]
 
 while True:
     res = 8
     i = 0
+
     while res >= 1 :
+        if i == 0: t_start = time.ticks_ms()
         # repeat once for each buffer to kill flicker
         for r in range(2):
             #scrub previous scanline
@@ -61,8 +67,7 @@ while True:
         
             mandel(i,res)
             display.update()
-            
-        if i == 0: t_start = time.ticks_ms()
+                   
         i += res
         if i > HEIGHT :
             i = 0  
