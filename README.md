@@ -1,8 +1,10 @@
 # picoVision
 Games and demos for Pimoroni PicoVision https://github.com/pimoroni/picovision
 
-Mandel - draw mandelbrot fractal
+Mandel.py - draw mandelbrot fractal
 
-Stickman - wireframe walking man
+Slideshow.py - load and show all PNG files on flash and SD card
 
-Willy - zx spectrum classic Manic Miner 
+Stickman.py - wireframe walking man
+
+Willy.py - zx spectrum classic Manic Miner 
